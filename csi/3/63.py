@@ -70,10 +70,13 @@ embedding_layer = Embedding(
 # 과적합 방지
 dropout_emb = Dropout(rate=dropout_prob)(embedding_layer)
 
-# 합성곱 필터로 특징추출해서 분류
+# 합성곱 필터로 특징추출해서 분류    # 합성곱 필터의 매개변수가 여태까지의 가중치에 해당한다.    역전파 같이 가중치를 계산해줄 수 있다
+# 스트라이드 : 상하좌우 이동 칸 수
+# 합성곱 필터 : 가중치 계산해줄 필터 / 패딩 : 특징맵의 크기가 작아지면서 데이터 유실, 혹은 입력 데이터보다 작아지는 것을 막을 수 있음
 conv1 = Conv1D(filters=128, kernel_size=3, padding='valid',
                activation=tf.nn.relu)(dropout_emb)
-# 최대풀링
+
+# 최대풀링해주는 함수
 pool1 = GlobalMaxPool1D()(conv1)
 
 conv2 = Conv1D(filters=128, kernel_size=4, padding='valid',
@@ -84,6 +87,7 @@ conv3 = Conv1D(filters=128, kernel_size=5, padding='valid',
 pool3 = GlobalMaxPool1D()(conv3)
 # cnn 모델을 케라스 함수형 모델로 구현
 # 임베딩 > 합성곱필터 > 평탄화 > 감정별로 분류
+
 
 # 3, 4, 5- gram 이후 합치기
 concat = concatenate([pool1, pool2, pool3])
@@ -96,6 +100,7 @@ logits = Dense(3, name='logits')(dropout_hidden)
 predictions = Dense(3, activation=tf.nn.softmax)(logits)
 
 
+
 # 모델 생성
 model = Model(inputs=input_layer, outputs=predictions)
 model.compile(optimizer='adam',
@@ -106,6 +111,8 @@ model.compile(optimizer='adam',
 # 모델 학습
 model.fit(train_ds, validation_data=val_ds, epochs=EPOCH, verbose=1)
 # 정의한 모델을 학습
+
+
 
 # 모델 평가(테스트 데이터셋 이용)
 loss, accuracy = model.evaluate(test_ds, verbose=1)
@@ -133,4 +140,7 @@ Epoch 5/5
 60/60 [==============================] - 0s 2ms/step - loss: 0.0626 - accuracy: 0.9788
 Accuracy: 97.884941
 loss: 0.062563
+
+
+# 에포크가 진행될수록 loss가 줄고, accuracy는 증가한다
 '''
