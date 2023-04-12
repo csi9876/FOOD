@@ -7,6 +7,9 @@
 # 주요한 특징을 추출하기 위해 사용하는 연산
 # 최대 풀링 각 영역의 최대값들을 추출
 
+# 감정분류 모델
+
+
 # 필요한 모듈 임포트
 import pandas as pd
 import tensorflow as tf
@@ -92,7 +95,7 @@ pool3 = GlobalMaxPool1D()(conv3)
 # 3, 4, 5- gram 이후 합치기
 concat = concatenate([pool1, pool2, pool3])
 # 완전 연결 계층 구현
-# 3개의 특징맵 데이터를 dense에 받아서 3새의 점수가 출력
+# 3개의 특징맵 데이터를 dense에 받아서 3개의 점수가 출력
 hidden = Dense(128, activation=tf.nn.relu)(concat)
 dropout_hidden = Dropout(rate=dropout_prob)(hidden)
 logits = Dense(3, name='logits')(dropout_hidden)

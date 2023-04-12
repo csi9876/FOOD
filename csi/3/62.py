@@ -25,6 +25,7 @@ plt.imshow(x_test[20], cmap="gray")
 plt.show()
 # imshow 함수를 통해 20번쨰 숫자 이미지를 흑백으로 출력
 
+
 # 테스트셋의 20번째 이미지 클래스 분류
 picks = [20]
 y_prob = model.predict(x_test[picks])
