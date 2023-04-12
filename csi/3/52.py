@@ -10,6 +10,8 @@ from numpy.linalg import norm
 def cos_sim(vec1, vec2):
     return dot(vec1, vec2) / (norm(vec1) * norm(vec2))
 # 코사인 유사도 계산하는 함수
+# norm : 벡터 크기 계산
+# dot : 벡터 내적 계산
 
 
 # TDM 만들기
@@ -24,9 +26,8 @@ def make_term_doc_mat(sentence_bow, word_dics):
             freq_mat[word] += 1
 
     return freq_mat
-# 문장에서 추출한 단어 사전을 기준으로 문장에 해당 단어들이 얼마나 
+# 문장에서 추출한 단어 사전을 기준으로 문장에 해당 단어들이 얼마나
 # 포함되어 있는지 나타내는 단어 문서 행렬 함수
-
 
 
 # 단어 벡터 만들기
@@ -35,7 +36,7 @@ def make_vector(tdm):
     for key in tdm:
         vec.append(tdm[key])
     return vec
-# 토큰들의 출현 빈도 데이터를 벡터로 만들어주는 함수
+# 단어 문서 행렬에서 토큰들의 출현 빈도 데이터를 벡터로 만들어주는 함수
 
 
 # 문장 정의

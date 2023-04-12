@@ -100,7 +100,6 @@ logits = Dense(3, name='logits')(dropout_hidden)
 predictions = Dense(3, activation=tf.nn.softmax)(logits)
 
 
-
 # 모델 생성
 model = Model(inputs=input_layer, outputs=predictions)
 model.compile(optimizer='adam',
@@ -111,7 +110,6 @@ model.compile(optimizer='adam',
 # 모델 학습
 model.fit(train_ds, validation_data=val_ds, epochs=EPOCH, verbose=1)
 # 정의한 모델을 학습
-
 
 
 # 모델 평가(테스트 데이터셋 이용)

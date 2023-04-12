@@ -1,3 +1,6 @@
+# MNIST 예제
+# 손글씨 0~9 이미지를딥러닝해 분류하는 것
+
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from tensorflow.keras.datasets import mnist
@@ -7,9 +10,9 @@ from tensorflow.keras.layers import Flatten, Dense
 # MNIST 데이터셋 가져오기
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 x_train, x_test = x_train / 255.0, x_test / 255.0  # 데이터 정규화
-# 학습데이터와 테스트 데이터를 다운로드 한 후 저장
+# 학습데이터 train과 테스트 데이터 test를 다운로드 한 후 저장
 # xtrain에는 숫자 이미지 > ytrain에 실제 숫자값
-# 255픽셀 값의 범위를 나누어 실숫값으로 정규화
+# 255픽셀 값의 범위를 나누어 0~1 사이의 실숫값으로 정규화
 
 
 # tf.data를 사용하여 데이터셋을 섞고 배치 만들기
@@ -18,6 +21,7 @@ train_size = int(len(x_train) * 0.7)  # 학습셋:검증셋 = 7:3
 train_ds = ds.take(train_size).batch(20)
 val_ds = ds.skip(train_size).batch(20)
 # 학습셋과 검증셋을 일정 비율로 나누어 텐서플로 데이터셋 생성
+# 학습하고 학습이 제대로 이루어지는 지 검증
 # 배치 사이즈는 전체 학습 데이터셋보다 작거나 동일해야한다
 
 
@@ -31,10 +35,12 @@ model.add(Dense(10, activation='softmax'))
 # > 복잡한 모델을 구성하기 위해서는 함수형 모델
 # Flatten : 신경망의 입력층 : 2차원 이미지를 1차원으로 평탄화
 # Dense : 2개의 은닉층 : 활성화 함수 ReLU 사용
+#   # 가중치와 출력값의 개수를 조정해주는 함수
 # 출력층 : 활성화함수 Softmax 사용
-# 입력받은 값을 0~1 사이의 값으로 정규화
+#   # 입력받은 값을 0~1 사이의 값으로 정규화
+#   # 분류하고 싶은 클래스 10개 중 가장 큰 값을 가지는 것을 결과값
 # 출력값의 총합이 1이 되므로 결과를 확률로 표현할 수 있음
-# 가장 큰 출력값을 가지는 클래스가 결과값
+# 가장 큰 출력값을 가지는 클래스가 결과값 > 9
 # 입력층을 제외한 나머지 층에서는 입력 크기를 지정하지 않았다. 이전 층의 출력 개수로 입력 크기를 자동 계산
 
 
@@ -44,7 +50,7 @@ model.compile(loss='sparse_categorical_crossentropy',
 # model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
 # 정의한 신경망 모델을 실제 생성
 # 오차 계산 손실 함수 : scc
-# 손실함수 : 모델의 결과값과 실제 정답과의 오차를 계산하는 함수
+#   # 손실함수 : 모델의 결과값과 실제 정답과의 오차를 계산하는 함수
 # 오차 보정 옵티마이저 : SGD
 # 성능평가 항목 : accuracy
 
