@@ -22,6 +22,8 @@ def split_sequence(sequence, step):
 # sin 함수 학습 데이터
 x = [i for i in np.arange(start=-10, stop=10, step=0.1)]
 train_y = [np.sin(i) for i in x]
+# 학습데이터셋
+
 
 # 하이퍼파라미터
 n_timesteps = 15
@@ -39,11 +41,16 @@ train_x = train_x.reshape(train_x.shape[0], train_x.shape[1], n_features)
 print("train_x.shape = {}".format(train_x.shape))
 print("train_y.shape = {}".format(train_y.shape))
 
+
 # LSTM 모델 정의
 model = Sequential()
 model.add(LSTM(units=10, return_sequences=False, input_shape=(n_timesteps, n_features)))
 model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse')
+# LSTM 계층 1개 + 출력을 위한 Dense 계층 1개
+
+
+
 
 # 모델 학습
 np.random.seed(0)
@@ -75,3 +82,6 @@ plt.plot(test_x, test_y, label="predicitons", color="blue")
 plt.legend(loc='upper left')
 plt.ylim(-2, 2)
 plt.show()
+
+
+'''RNN 모델보다 오차가 더 작다'''
