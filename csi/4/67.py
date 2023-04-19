@@ -31,6 +31,10 @@ model = Sequential()
 model.add(Bidirectional(LSTM(n_units, return_sequences=True, input_shape=(n_timesteps, 1))))
 model.add(TimeDistributed(Dense(1, activation='sigmoid')))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+# 양방향을 위해 Bidirectional wrapper 사용
+# 정방향 역방향 LSTM 계층에 모든 출력값을 연결해야 하기 때문에 반드시  return_sequences=True
+# Dense 계층을 3차원을 입력받을 수  있게 TimeDistributed로 확장
+
 
 # 모델 학습
 # 에포크마다 학습 데이터를 생성해서 학습
