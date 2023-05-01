@@ -17,7 +17,7 @@ try:
         # 로그인 유저
         user='root',
         # 패스워드
-        passwd='asd',
+        passwd='Wkdlsh1836~',
         # db명
         db='test',
         # 인코딩
